@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike","Buy Eggos","Destroy Demogorgon"]
+    var itemArray = ["Find Mike","Buy Eggos","Destroy Demogorgon"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +29,8 @@ class TodoListViewController: UITableViewController {
         return cell
     }
     
-    
     //TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //print(itemArray[indexPath.row])
-        //tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
               tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -43,8 +39,24 @@ class TodoListViewController: UITableViewController {
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
-        
     }
-
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        
+        //Show the alertview by saving what user input in textfiled
+        let alert = UIAlertController(title: "Add New File", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Save", style: .default, handler: { (action:UIAlertAction) -> Void in
+            let texField = alert.textFields!.first
+            self.itemArray.append(texField!.text!)
+            self.tableView.reloadData()
+        })
+        // Write place Holder on this Situation (AlertView)
+            alert.addTextField {(alertTextField) in
+            alertTextField.placeholder = "Create new item"
+    }
+        // Final Step in AlertView
+        alert.addAction(action)
+        present(alert, animated: true , completion: nil)
+  }
 }
-
